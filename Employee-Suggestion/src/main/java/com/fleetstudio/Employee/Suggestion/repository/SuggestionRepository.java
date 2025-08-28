@@ -152,4 +152,6 @@ public interface SuggestionRepository extends JpaRepository<Suggestion, Long> {
     @Query("UPDATE Suggestion s SET s.voteCount = CASE WHEN s.voteCount > 0 THEN s.voteCount - 1 ELSE 0 END, " +
            "s.updatedAt = :updateTime WHERE s.id = :suggestionId AND s.deleted = false")
     int decrementVoteCount(@Param("suggestionId") Long suggestionId, @Param("updateTime") LocalDateTime updateTime);
+
+    List<Suggestion> findByDeletedTrue();
 }

@@ -1,17 +1,20 @@
 package com.fleetstudio.Employee.Suggestion.controller;
 
 import com.fleetstudio.Employee.Suggestion.model.SuggestionStatus;
+import com.fleetstudio.Employee.Suggestion.security.jwt.UserDetailsImpl;
 import com.fleetstudio.Employee.Suggestion.service.AdminService;
 import com.fleetstudio.Employee.Suggestion.service.StatusHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import com.fleetstudio.Employee.Suggestion.model.Suggestion;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = "*")
 public class AdminController {
 
     private final AdminService adminService;
@@ -49,25 +52,30 @@ public class AdminController {
      * Change suggestion status
      */
     @PutMapping("/suggestions/{suggestionId}/status")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> changeStatus(
             @PathVariable Long suggestionId,
             @RequestBody ChangeStatusRequest request,
-            @RequestParam String token) {
-        
-        if (!adminService.isAdmin(token)) {
-            return ResponseEntity.status(403).body(new ErrorResponse("Admin access required"));
-        }
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         try {
-            boolean success = adminService.changeStatus(suggestionId, request.getStatus(), token, request.getReason());
+            boolean success = adminService.changeStatus(
+                    suggestionId,
+                    request.getStatus(),
+                    userDetails.getUsername(),
+                    request.getReason()
+            );
+
             if (success) {
                 return ResponseEntity.ok(new SuccessResponse("Status updated successfully"));
             } else {
                 return ResponseEntity.badRequest().body(new ErrorResponse("Failed to update status"));
             }
+
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
         } catch (Exception e) {
+              e.printStackTrace();
             return ResponseEntity.internalServerError().body(new ErrorResponse("Internal server error"));
         }
     }
@@ -76,17 +84,13 @@ public class AdminController {
      * Delete suggestion (soft delete)
      */
     @DeleteMapping("/suggestions/{suggestionId}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<?> deleteSuggestion(
-            @PathVariable Long suggestionId,
-            @RequestParam String token,
-            @RequestParam(required = false) String reason) {
+            @PathVariable Long suggestionId,@AuthenticationPrincipal  UserDetailsImpl userDetails) {
         
-        if (!adminService.isAdmin(token)) {
-            return ResponseEntity.status(403).body(new ErrorResponse("Admin access required"));
-        }
 
         try {
-            boolean success = adminService.deleteSuggestion(suggestionId, token, reason);
+            boolean success = adminService.deleteSuggestion(suggestionId, userDetails.getUsername());
             if (success) {
                 return ResponseEntity.ok(new SuccessResponse("Suggestion deleted successfully"));
             } else {
@@ -168,6 +172,17 @@ public class AdminController {
 
         AdminService.ExportResult result = adminService.exportSuggestions(format, token);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/suggestions/deleted")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<Suggestion>> getDeletedSuggestions() {
+        try {
+            List<Suggestion> deleted = adminService.getDeletedSuggestions();
+            return ResponseEntity.ok(deleted);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     /**

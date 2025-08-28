@@ -67,6 +67,7 @@ public class SuggestionService {
      * Create a new suggestion
      */
     public Suggestion createSuggestion(String title, String description, Long employeeId, boolean isAnonymous) {
+
         validateSuggestionData(title, description);
 
         Employee submittedBy = null;
@@ -335,5 +336,10 @@ public class SuggestionService {
         if (title.length() > 200) {
             throw new IllegalArgumentException("Suggestion title cannot exceed 200 characters");
         }
+    }
+
+    public List<Suggestion> findByDeletedTrue() {
+        return suggestionRepository.findByDeletedTrue();
+
     }
 }

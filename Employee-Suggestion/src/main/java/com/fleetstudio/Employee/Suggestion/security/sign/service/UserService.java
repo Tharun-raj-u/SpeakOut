@@ -4,6 +4,7 @@ import com.fleetstudio.Employee.Suggestion.model.Employee;
 import com.fleetstudio.Employee.Suggestion.repository.EmployeeRepository;
 import com.fleetstudio.Employee.Suggestion.security.jwt.JwtUtils;
 import com.fleetstudio.Employee.Suggestion.security.jwt.UserDetailsImpl;
+import com.fleetstudio.Employee.Suggestion.security.sign.dto.AuthResponse;
 import com.fleetstudio.Employee.Suggestion.security.sign.dto.LoginRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,19 +41,28 @@ public class UserService {
     }
 
 
-    public String authenticate(LoginRequest loginRequest) {
-        Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword()));
+    public AuthResponse authenticate(LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+        );
+
         if (authentication == null) {
             throw new BadCredentialsException("Invalid email or password");
         }
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetailsImpl userDetails=(UserDetailsImpl) authentication.getPrincipal();
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMTJAZ21haWwuY29tIiwicm9sZXMiOiJST0xFX1VTRVIiLCJpYXQiOjE3NDcxNTIwNzYsImV4cCI6MTc0NzE1NTY3Nn0.PM23Eq_QkKHeiyH94BgbQD4Nvf7hfzPWg6cgF4HwbcI";
-        boolean isValid = jwtUtils.validateToken(token);
-        System.out.println(isValid ? "Valid JWT Token" : "Invalid JWT Token");
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        return   jwtUtils.generateToken(userDetails);
+        // Generate JWT token
+        String token = jwtUtils.generateToken(userDetails);
 
+        // Extract role (assuming your UserDetailsImpl has getAuthorities)
+        String role = userDetails.getAuthorities().stream()
+                .findFirst()
+                .map(Object::toString)
+                .orElse("USER");
 
+        return new AuthResponse(token, role);
     }
+
 }

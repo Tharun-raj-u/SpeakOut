@@ -25,7 +25,7 @@ public class Vote {
     // Optional: If we want to track employee votes (when not anonymous)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
-
+    @JsonIgnore
     private Employee employee;
     
     @Column(name = "created_at", nullable = false)

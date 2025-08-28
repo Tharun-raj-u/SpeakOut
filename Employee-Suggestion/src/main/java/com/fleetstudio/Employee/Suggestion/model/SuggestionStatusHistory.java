@@ -1,5 +1,6 @@
 package com.fleetstudio.Employee.Suggestion.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -13,6 +14,7 @@ public class SuggestionStatusHistory {
     
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "suggestion_id", nullable = false)
+    @JsonIgnore
     private Suggestion suggestion;
     
     @Enumerated(EnumType.STRING)

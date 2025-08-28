@@ -1,6 +1,7 @@
 
 package com.fleetstudio.Employee.Suggestion.security.sign.Contoller;
 import com.fleetstudio.Employee.Suggestion.model.Employee;
+import com.fleetstudio.Employee.Suggestion.security.sign.dto.AuthResponse;
 import com.fleetstudio.Employee.Suggestion.security.sign.dto.LoginRequest;
 import com.fleetstudio.Employee.Suggestion.security.sign.dto.LoginResponse;
 import com.fleetstudio.Employee.Suggestion.security.sign.dto.RegisterRequest;
@@ -41,11 +42,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> signInUser(@RequestBody LoginRequest loginRequest) {
-        String token = userService.authenticate(loginRequest);
+        AuthResponse authResponse = userService.authenticate(loginRequest);
 
-        if (token != null) {
+        if (authResponse != null) {
 
-            return ResponseEntity.ok(new LoginResponse("Login successful",token));
+            return ResponseEntity.ok(new LoginResponse("Login successful",authResponse.getToken(),authResponse.getRole()));
         }
 
 

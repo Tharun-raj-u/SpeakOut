@@ -1,6 +1,7 @@
 package com.fleetstudio.Employee.Suggestion.service;
 
 
+import com.fleetstudio.Employee.Suggestion.model.Suggestion;
 import com.fleetstudio.Employee.Suggestion.model.SuggestionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -78,24 +80,16 @@ public class AdminService {
      * Change suggestion status with admin verification
      */
     public boolean changeStatus(Long suggestionId, SuggestionStatus newStatus, String adminToken, String reason) {
-        if (!isAdmin(adminToken)) {
-            throw new SecurityException("Admin privileges required");
-        }
-        
-        String adminName = getAdminName(adminToken);
-        suggestionService.changeStatus(suggestionId, newStatus, adminName, reason);
+
+        suggestionService.changeStatus(suggestionId, newStatus, adminToken, reason);
         return true;
     }
 
     /**
      * Delete suggestion with admin verification
      */
-    public boolean deleteSuggestion(Long suggestionId, String adminToken, String reason) {
-        if (!isAdmin(adminToken)) {
-            throw new SecurityException("Admin privileges required");
-        }
-        
-        String adminName = getAdminName(adminToken);
+    public boolean deleteSuggestion(Long suggestionId, String adminName) {
+
         suggestionService.deleteSuggestion(suggestionId, adminName);
         return true;
     }
@@ -214,6 +208,10 @@ public class AdminService {
     private String getAdminName(String adminToken) {
         // In production, this would decode the actual admin token
         return "admin123".equals(adminToken) ? "Administrator" : "Admin";
+    }
+
+    public List<Suggestion> getDeletedSuggestions() {
+        return suggestionService.findByDeletedTrue();
     }
 
     // Inner classes for return types

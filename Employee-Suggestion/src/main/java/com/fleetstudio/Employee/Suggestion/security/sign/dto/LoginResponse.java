@@ -11,6 +11,22 @@ public class LoginResponse {
     private String token;
     private  String message;
 
+    public LoginResponse(String message, String token, String role) {
+        this.message = message;
+        this.token = token;
+        this.role=role;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    private String role;
+
 
     public LoginResponse(String message, String token) {
         this.message = message;

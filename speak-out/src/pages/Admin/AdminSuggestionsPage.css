@@ -1,0 +1,105 @@
+/* SuggestionsPage.css */
+
+/* Container for the whole page */
+.suggestions-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 15px;
+  font-family: Arial, sans-serif;
+}
+
+/* Title */
+.suggestions-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Individual suggestion bubble */
+.suggestion-bubble {
+  background-color: #f9f9f9;
+  border-left: 5px solid #4caf50; /* green indicator */
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s;
+}
+
+.suggestion-bubble:hover {
+  transform: translateY(-2px);
+}
+
+/* Differentiate "mine" suggestions */
+.suggestion-bubble.mine {
+  border-left-color: #2196f3; /* blue for own suggestions */
+}
+
+/* Title inside bubble */
+.suggestion-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+/* Small text (status, submitter) */
+.suggestion-bubble small {
+  display: block;
+  color: #666;
+  margin-top: 8px;
+}
+
+/* Buttons container */
+.suggestion-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+/* Buttons */
+.suggestion-actions button {
+  cursor: pointer;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+/* Vote button */
+.suggestion-actions button:first-child {
+  background-color: #ffeb3b;
+  color: #333;
+}
+
+.suggestion-actions button:first-child:hover {
+  background-color: #fdd835;
+}
+
+/* Edit button */
+.suggestion-actions button:nth-child(2) {
+  background-color: #2196f3;
+  color: white;
+}
+
+.suggestion-actions button:nth-child(2):hover {
+  background-color: #1976d2;
+}
+
+/* Delete button */
+.suggestion-actions button:nth-child(3) {
+  background-color: #f44336;
+  color: white;
+}
+
+.suggestion-actions button:nth-child(3):hover {
+  background-color: #d32f2f;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .suggestion-actions {
+    flex-direction: column;
+  }
+}

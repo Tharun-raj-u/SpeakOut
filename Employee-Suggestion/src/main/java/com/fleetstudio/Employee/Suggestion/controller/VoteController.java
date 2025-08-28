@@ -1,9 +1,12 @@
 package com.fleetstudio.Employee.Suggestion.controller;
 
 import com.fleetstudio.Employee.Suggestion.model.Vote;
+import com.fleetstudio.Employee.Suggestion.security.jwt.UserDetailsImpl;
 import com.fleetstudio.Employee.Suggestion.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,29 +28,7 @@ public class VoteController {
     /**
      * Vote for a suggestion
      */
-    @PostMapping("/suggestion/{suggestionId}")
-    public ResponseEntity<VoteResponse> voteForSuggestion(
-            @PathVariable Long suggestionId,
-            @RequestBody VoteRequest request,
-            HttpServletRequest httpRequest) {
-        
-        try {
-            String deviceId = getDeviceIdentifier(request.getDeviceId(), httpRequest);
-            boolean success = voteService.voteForSuggestion(suggestionId, deviceId, request.getEmployeeId());
-            
-            long newVoteCount = voteService.getVoteCount(suggestionId);
-            
-            if (success) {
-                return ResponseEntity.ok(new VoteResponse(true, true, newVoteCount, "Vote added successfully"));
-            } else {
-                return ResponseEntity.badRequest().body(new VoteResponse(true, false, newVoteCount, "Already voted for this suggestion"));
-            }
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new VoteResponse(true, false, 0, e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new VoteResponse(true, false, 0, "Failed to add vote"));
-        }
-    }
+
 
     /**
      * Remove vote for a suggestion
@@ -78,33 +59,48 @@ public class VoteController {
 
     /**
      * Toggle vote for a suggestion (vote if not voted, unvote if already voted)
-     */
-    @PostMapping("/suggestion/{suggestionId}/toggle")
-    public ResponseEntity<VoteResponse> toggleVote(
-            @PathVariable Long suggestionId,
-            @RequestBody VoteRequest request,
-            HttpServletRequest httpRequest) {
-        
-        try {
-            String deviceId = getDeviceIdentifier(request.getDeviceId(), httpRequest);
-            VoteService.VoteResult result = voteService.toggleVote(suggestionId, deviceId, request.getEmployeeId());
-            
-            return ResponseEntity.ok(new VoteResponse(
-                result.isVoted(),
-                result.isSuccess(),
-                result.getNewVoteCount(),
-                result.getMessage()
-            ));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(new VoteResponse(false, false, 0, e.getMessage()));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new VoteResponse(false, false, 0, "Failed to toggle vote"));
-        }
-    }
 
-    /**
      * Check if user has voted for a suggestion
      */
+        @PostMapping("/suggestion/{suggestionId}/toggle")
+        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+        public ResponseEntity<VoteResponse> toggleVote(
+                @PathVariable Long suggestionId,
+                @RequestBody VoteRequest request,
+                @AuthenticationPrincipal UserDetailsImpl userDetails,
+                HttpServletRequest httpRequest) {
+
+            try {
+                Long employeeId = userDetails.getId(); // ✅ taken from token
+
+                String deviceId = getDeviceIdentifier(request.getDeviceId(), httpRequest);
+
+                VoteService.VoteResult result = voteService.toggleVote(
+                        suggestionId,
+                        deviceId,
+                        employeeId
+                );
+
+                return ResponseEntity.ok(new VoteResponse(
+                        result.isVoted(),
+                        result.isSuccess(),
+                        result.getNewVoteCount(),
+                        result.getMessage()
+                ));
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.badRequest().body(new VoteResponse(false, false, 0, e.getMessage()));
+            } catch (Exception e) {
+                return ResponseEntity.internalServerError().body(new VoteResponse(false, false, 0, "Failed to toggle vote"));
+            }
+        }
+
+        // Example implementation (you already have this I think)
+        private String getDeviceIdentifier(String deviceIdFromReq, HttpServletRequest httpRequest) {
+            if (deviceIdFromReq != null && !deviceIdFromReq.isEmpty()) {
+                return deviceIdFromReq;
+            }
+            return httpRequest.getRemoteAddr(); // fallback to IP
+        }
     @GetMapping("/suggestion/{suggestionId}/status")
     public ResponseEntity<VoteStatusResponse> getVoteStatus(
             @PathVariable Long suggestionId,
@@ -235,28 +231,17 @@ public class VoteController {
     /**
      * Get or generate device identifier
      */
-    private String getDeviceIdentifier(String providedDeviceId, HttpServletRequest request) {
-        if (providedDeviceId != null && !providedDeviceId.trim().isEmpty()) {
-            return providedDeviceId.trim();
-        }
-        
-        // Fallback: generate based on IP address and user agent (for demo purposes)
-        String userAgent = request.getHeader("User-Agent");
-        String remoteAddr = request.getRemoteAddr();
-        
-        return "device_" + Math.abs((userAgent + remoteAddr).hashCode());
-    }
+
 
     // Request/Response classes
     public static class VoteRequest {
         private String deviceId;
-        private Long employeeId;
+
 
         public String getDeviceId() { return deviceId; }
         public void setDeviceId(String deviceId) { this.deviceId = deviceId; }
         
-        public Long getEmployeeId() { return employeeId; }
-        public void setEmployeeId(Long employeeId) { this.employeeId = employeeId; }
+
     }
 
     public static class VoteResponse {
