@@ -18,6 +18,10 @@ public class Employee {
     @Size(max = 100, message = "Name cannot exceed 100 characters")
     @Column(name = "name", nullable = false, length = 100)
     private String name;
+
+
+    @Column(nullable = false)
+    private String password;
     
     @NotBlank(message = "Email is required")
     @Email(message = "Email should be valid")
@@ -38,10 +42,19 @@ public class Employee {
     
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    
+
+    private  String role;
     // Constructors
     public Employee() {}
-    
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Employee(String name, String email, String department, String position) {
         this.name = name;
         this.email = email;
@@ -132,4 +145,14 @@ public class Employee {
                 ", updatedAt=" + updatedAt +
                 '}';
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
 }

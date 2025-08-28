@@ -1,8 +1,9 @@
 package com.fleetstudio.Employee.Suggestion.repository;
 
-import com.suggestionbox.model.Suggestion;
-import com.suggestionbox.model.SuggestionStatus;
-import com.suggestionbox.model.SuggestionStatusHistory;
+
+import com.fleetstudio.Employee.Suggestion.model.Suggestion;
+import com.fleetstudio.Employee.Suggestion.model.SuggestionStatus;
+import com.fleetstudio.Employee.Suggestion.model.SuggestionStatusHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

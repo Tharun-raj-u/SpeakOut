@@ -1,5 +1,6 @@
 package com.fleetstudio.Employee.Suggestion.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -14,6 +15,7 @@ public class Vote {
     
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "suggestion_id", nullable = false)
+    @JsonIgnore
     private Suggestion suggestion;
     
     // Using device identifier for anonymous voting (one vote per device per suggestion)
@@ -23,6 +25,7 @@ public class Vote {
     // Optional: If we want to track employee votes (when not anonymous)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
+
     private Employee employee;
     
     @Column(name = "created_at", nullable = false)
