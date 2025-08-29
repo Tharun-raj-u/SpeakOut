@@ -342,4 +342,8 @@ public class SuggestionService {
         return suggestionRepository.findByDeletedTrue();
 
     }
+
+    public void hardDeleteSuggestions() {
+         suggestionRepository.deleteByDeleted(true);
+    }
 }

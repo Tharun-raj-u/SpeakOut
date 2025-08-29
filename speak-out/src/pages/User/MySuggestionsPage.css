@@ -1,0 +1,418 @@
+/* MySuggestionsPage.css */
+
+.suggestions-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  background: black;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.suggestions-container h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.5px;
+}
+
+/* Loading and Error States */
+.suggestions-container p {
+  text-align: center;
+  font-size: 1.1rem;
+  color: white;
+  margin: 2rem 0;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Grid Layout */
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Suggestion Cards */
+.suggestion-card {
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.suggestion-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.suggestion-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.suggestion-card:hover::before {
+  opacity: 1;
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.card-header h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.3;
+  flex: 1;
+}
+
+/* Status Badge */
+.status-badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge.open {
+  background: linear-gradient(135deg, #3bd40c, #38a169);
+  color: white;
+}
+
+.status-badge.in_progress {
+  background: linear-gradient(135deg, #e2de0dc2, #dd6b20);
+  color: white;
+}
+
+.status-badge.approved {
+  background: linear-gradient(135deg, #4299e1, #3182ce);
+  color: white;
+}
+
+.status-badge.rejected {
+  background: linear-gradient(135deg, #ff1515, #e53e3e);
+  color: white;
+}
+
+.status-badge.implemented {
+  background: linear-gradient(135deg, #9f7aea, #805ad5);
+  color: white;
+}
+
+/* Description */
+.desc {
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* Card Meta */
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: rgba(247, 250, 252, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.card-meta small {
+  color: #718096;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.card-meta small:before {
+  content: '•';
+  color: #cbd5e0;
+  font-weight: bold;
+}
+
+.card-meta small:first-child:before {
+  display: none;
+}
+
+/* Status History */
+.history {
+  margin: 1rem 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.history summary {
+  padding: 0.8rem 1rem;
+  background: linear-gradient(135deg, #f7fafc, #edf2f7);
+  cursor: pointer;
+  font-weight: 600;
+  color: #4a5568;
+  border-bottom: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.history summary:hover {
+  background: linear-gradient(135deg, #edf2f7, #e2e8f0);
+}
+
+.history[open] summary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.history ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: #f8fafc;
+}
+
+.history li {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+  color: #4a5568;
+  transition: background-color 0.2s ease;
+}
+
+.history li:hover {
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.history li:last-child {
+  border-bottom: none;
+}
+
+.history li strong {
+  color: #2d3748;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+/* Action Buttons */
+.suggestion-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.edit-btn,
+.delete-btn {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-btn {
+  background: linear-gradient(135deg, #4299e1, #3182ce);
+  color: white;
+  box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+}
+
+.edit-btn:hover {
+  background: linear-gradient(135deg, #3182ce, #2c5282);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(66, 153, 225, 0.4);
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, #f56565, #e53e3e);
+  color: white;
+  box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 101, 101, 0.4);
+}
+
+.edit-btn:active,
+.delete-btn:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease;
+}
+
+/* Button Ripple Effect */
+.edit-btn::after,
+.delete-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.edit-btn:active::after,
+.delete-btn:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .suggestions-container {
+    padding: 1rem;
+  }
+
+  .suggestions-container h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .suggestions-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .suggestion-card {
+    padding: 1.25rem;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+
+  .card-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .suggestion-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .suggestions-container {
+    padding: 0.8rem;
+  }
+
+  .suggestions-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .suggestion-card {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+}
+
+/* Animation for new cards */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.suggestion-card {
+  animation: slideInUp 0.6s ease-out;
+}
+
+/* Loading Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.suggestions-container p {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles for accessibility */
+.edit-btn:focus,
+.delete-btn:focus,
+.history summary:focus {
+  outline: 3px solid rgba(66, 153, 225, 0.5);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar for status history */
+.history ul {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.history ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history ul::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.history ul::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 3px;
+}
+
+.history ul::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}

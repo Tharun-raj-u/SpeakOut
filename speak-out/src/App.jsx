@@ -8,6 +8,7 @@ import PageNotFound from "./pages/PageNotFound";
 import SuggestionForm from "./pages/User/SuggestionForm";
 import AdminSuggestionsPage from "./pages/Admin/AdminSuggestionsPage";
 import MySuggestionsPage from "./pages/User/MySuggestionsPage";
+import DeletedSuggestionsPage from "./pages/Admin/DeletedSuggestionsPage";  
 
 function App() {
   const token = localStorage.getItem("token");
@@ -27,7 +28,7 @@ function App() {
             element={<Navigate to={role === "ROLE_ADMIN" ? "/admin" : "/user"} />}
           />
         ) : (
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
         )}
 
         {/* User Routes (only if authenticated & role = USER) */}
@@ -74,7 +75,7 @@ function App() {
           }
         />
         <Route
-          path="/register"
+          path="/admin/register"
           element={
             isAuthenticated && role === "ROLE_ADMIN" ? (
               <EmployeeForm />
@@ -88,6 +89,16 @@ function App() {
           element={
             isAuthenticated && role === "ROLE_ADMIN" ? (
               <AdminSuggestionsPage />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+         <Route
+          path="/admin/deleted-suggestions"
+          element={
+            isAuthenticated && role === "ROLE_ADMIN" ? (
+              <DeletedSuggestionsPage />
             ) : (
               <Navigate to="/" />
             )

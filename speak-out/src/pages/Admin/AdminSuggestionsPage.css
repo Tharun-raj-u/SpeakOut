@@ -1,105 +1,183 @@
-/* SuggestionsPage.css */
-
-/* Container for the whole page */
-.suggestions-container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 0 15px;
-  font-family: Arial, sans-serif;
+.admin-suggestions-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  background: #000;
+  font-family: "Inter", sans-serif;
 }
 
-/* Title */
-.suggestions-container h2 {
+.admin-title {
+  font-size: 2.2rem;
+  font-weight: 700;
   text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+  margin-bottom: 2rem;
+  color: #fff;
 }
 
-/* Individual suggestion bubble */
-.suggestion-bubble {
-  background-color: #f9f9f9;
-  border-left: 5px solid #4caf50; /* green indicator */
-  padding: 15px 20px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.1s;
-}
-
-.suggestion-bubble:hover {
-  transform: translateY(-2px);
-}
-
-/* Differentiate "mine" suggestions */
-.suggestion-bubble.mine {
-  border-left-color: #2196f3; /* blue for own suggestions */
-}
-
-/* Title inside bubble */
-.suggestion-title {
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-  color: #222;
-}
-
-/* Small text (status, submitter) */
-.suggestion-bubble small {
-  display: block;
-  color: #666;
-  margin-top: 8px;
-}
-
-/* Buttons container */
-.suggestion-actions {
-  margin-top: 12px;
+/* Filter bar */
+.filter-bar {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  color: #fff;
 }
 
-/* Buttons */
-.suggestion-actions button {
-  cursor: pointer;
-  padding: 6px 12px;
-  font-size: 0.9rem;
+.filter-bar select {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
   border: none;
+  background: #222;
+  color: #fff;
+  font-size: 1rem;
+}
+
+/* Grid */
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.admin-suggestion-card {
+  background: #111;
+  border-radius: 12px;
+  padding: 1.5rem;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease;
+}
+
+.admin-suggestion-card:hover {
+  transform: translateY(-3px);
+}
+
+.admin-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-suggestion-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.admin-description {
+  margin: 1rem 0;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.admin-meta {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* Status badge colors */
+.admin-status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-OPEN {
+  background: #007bff;
+  color: white;
+}
+.status-IN_PROGRESS {
+  background: #ffc107;
+  color: black;
+}
+.status-CLOSED {
+  background: #28a745;
+  color: white;
+}
+.status-REJECTED {
+  background: #dc3545;
+  color: white;
+}
+
+/* Actions */
+.admin-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.admin-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.admin-btn-status {
+  background: #007bff;
+  color: white;
+}
+
+.admin-btn-delete {
+  background: #dc3545;
+  color: white;
+}
+
+.admin-btn-save {
+  background: #28a745;
+  color: white;
+}
+
+.admin-btn-cancel {
+  background: #6c757d;
+  color: white;
+}
+
+/* Status form */
+.admin-status-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.admin-status-form select,
+.admin-status-form input {
+  padding: 0.5rem;
   border-radius: 6px;
-  transition: background-color 0.2s;
-}
-
-/* Vote button */
-.suggestion-actions button:first-child {
-  background-color: #ffeb3b;
-  color: #333;
-}
-
-.suggestion-actions button:first-child:hover {
-  background-color: #fdd835;
-}
-
-/* Edit button */
-.suggestion-actions button:nth-child(2) {
-  background-color: #2196f3;
+  border: none;
+  background: #222;
   color: white;
 }
 
-.suggestion-actions button:nth-child(2):hover {
-  background-color: #1976d2;
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  color: #fff;
 }
 
-/* Delete button */
-.suggestion-actions button:nth-child(3) {
-  background-color: #f44336;
+.page-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  background: #333;
   color: white;
+  cursor: pointer;
 }
 
-.suggestion-actions button:nth-child(3):hover {
-  background-color: #d32f2f;
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
-
-/* Responsive */
-@media (max-width: 600px) {
-  .suggestion-actions {
-    flex-direction: column;
-  }
+.page-btn:hover:not(:disabled) {
+  background: #555;
 }

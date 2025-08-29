@@ -5,25 +5,28 @@ import "./UserDashboard.css";
 function UserDashboard() {
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [votingStates, setVotingStates] = useState({}); // Track voting states
+  const [votingStates, setVotingStates] = useState({});
+  const [page, setPage] = useState(0); // current page
+  const [totalPages, setTotalPages] = useState(0);
   const token = localStorage.getItem("token");
 
-  // 🔹 Load all suggestions (paginated)
+  // Load suggestions when page or token changes
   useEffect(() => {
-    getData();
-  }, [token]);
+    if (token) {
+      getData(page);
+    }
+  }, [page, token]);
 
-
-  const getData = async () => {
-    if (!token) return;
-
+  const getData = async (pageNumber = 0) => {
+  
     try {
       const response = await fetch(
-        "http://localhost:8080/api/suggestions?paginated=true&page=0&size=10",
+        `http://localhost:8080/api/suggestions?paginated=true&page=${pageNumber}&size=10`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await response.json();
       setSuggestions(data.content || []);
+      setTotalPages(data.totalPages || 0);
     } catch {
       setSuggestions([]);
     } finally {
@@ -31,15 +34,11 @@ function UserDashboard() {
     }
   };
 
-  // 🔹 Toggle vote with proper UI updates
   const handleVote = async (id) => {
-    // Prevent multiple clicks
     if (votingStates[id]) return;
-    
-    setVotingStates(prev => ({ ...prev, [id]: true }));
+    setVotingStates((prev) => ({ ...prev, [id]: true }));
 
-    let deviceId = "device123"; // fallback
-
+    let deviceId = "device123";
     try {
       const FingerprintJS = await import("@fingerprintjs/fingerprintjs");
       const fp = await FingerprintJS.load();
@@ -50,19 +49,21 @@ function UserDashboard() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/votes/suggestion/${id}/toggle`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ deviceId }),
-      });
+      const response = await fetch(
+        `http://localhost:8080/api/votes/suggestion/${id}/toggle`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ deviceId }),
+        }
+      );
 
       const data = await response.json();
-      
       if (data.success) {
-         getData();
+        getData(page); // refresh current page
       } else {
         alert(data.message || "Vote failed");
       }
@@ -70,86 +71,136 @@ function UserDashboard() {
       console.error("Vote error:", error);
       alert("Failed to vote. Please try again.");
     } finally {
-      setVotingStates(prev => ({ ...prev, [id]: false }));
+      setVotingStates((prev) => ({ ...prev, [id]: false }));
     }
   };
 
   const getStatusBadgeClass = (status) => {
     switch (status?.toLowerCase()) {
-      case 'pending': return 'status-pending';
-      case 'approved': return 'status-approved';
-      case 'rejected': return 'status-rejected';
-      case 'implemented': return 'status-implemented';
-      default: return 'status-default';
+      case "open":
+        return "status-open";
+      case "pending":
+        return "status-pending";
+      case "approved":
+        return "status-approved";
+      case "rejected":
+        return "status-rejected";
+      case "implemented":
+        return "status-implemented";
+      default:
+        return "status-default";
     }
   };
 
-  if (loading) {
-    return (
-      <div className="suggestions-container">
-        <Navbar />
-        <div className="loading-container">
-          <div className="loading-spinner"></div>
-          <p>Loading suggestions...</p>
-        </div>
-      </div>
-    );
-  }
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat("en-US", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    }).format(date);
+  };
 
   return (
     <div className="suggestions-container">
       <Navbar />
       <div className="dashboard-header">
         <h2>💡 Employee Suggestions</h2>
-        <p className="dashboard-subtitle">Discover and vote on amazing ideas from your colleagues</p>
+        <p className="dashboard-subtitle">
+          Discover and vote on amazing ideas from your colleagues
+        </p>
       </div>
-      
-      {suggestions.length === 0 ? (
+
+      {loading ? (
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading suggestions...</p>
+        </div>
+      ) : suggestions.length === 0 ? (
         <div className="empty-state">
           <div className="empty-icon">💭</div>
           <h3>No suggestions yet</h3>
           <p>Be the first to share your brilliant idea!</p>
         </div>
       ) : (
-        <div className="suggestions-grid">
-          {suggestions.map((s) => (
-            <div key={s.id} className="suggestion-card">
-              <div className="card-header">
-                <h3 className="suggestion-title">{s.title}</h3>
-                <span className={`status-badge ${getStatusBadgeClass(s.status)}`}>
-                  {s.status || 'Pending'}
-                </span>
-              </div>
-              
-              <p className="suggestion-description">{s.description}</p>
-              
-              <div className="card-footer">
-                <div className="suggestion-meta">
-                  <span className="submitter">
-                    {s.isAnonymous ? "🎭 Anonymous" : `👤 ${s.submitterName || "Unknown"}`}
+        <>
+          <div className="suggestions-grid">
+            {suggestions.map((s) => (
+              <div key={s.id} className="suggestion-card">
+                <div className="card-header">
+                  <h3 className="suggestion-title">{s.title}</h3>
+                  <span
+                    className={`status-badge ${getStatusBadgeClass(s.status)}`}
+                  >
+                    {s.status || "Pending"}
                   </span>
                 </div>
-                
-                <button 
-                  className={`vote-button ${votingStates[s.id] ? 'voting' : ''}`}
-                  onClick={() => handleVote(s.id)}
-                  disabled={votingStates[s.id]}
-                >
-                  {votingStates[s.id] ? (
-                    <>
-                      <span className="vote-spinner"></span>
-                      {s.voteCount}
-                    </>
-                  ) : (
-                    <>
-                      👍 {s.voteCount}
-                    </>
-                  )}
-                </button>
+
+                <p className="suggestion-description">{s.description}</p>
+
+                <div className="card-footer">
+                  <span className="submitter">
+                    {s.isAnonymous
+                      ? "🎭 Anonymous"
+                      : `👤 ${s.submitterName || "Unknown"}`}
+                  </span>
+
+                  {/* Display formatted creation date */}
+                  <span className="creation-date">
+                    📅 {formatDate(s.createdAt)}
+                  </span>
+
+                  <button
+                    className={`vote-button ${
+                      votingStates[s.id] ? "voting" : ""
+                    }`}
+                    onClick={() => handleVote(s.id)}
+                    disabled={votingStates[s.id]}
+                  >
+                    {votingStates[s.id] ? (
+                      <>
+                        <span className="vote-spinner"></span>
+                        {s.voteCount}
+                      </>
+                    ) : (
+                      <>👍 {s.voteCount}</>
+                    )}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+
+          {/* 🔹 Pagination controls */}
+          <div className="pagination">
+            <button
+              disabled={page === 0}
+              onClick={() => setPage((prev) => prev - 1)}
+            >
+              ⬅ Prev
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                className={i === page ? "active" : ""}
+                onClick={() => setPage(i)}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              disabled={page >= totalPages - 1}
+              onClick={() => setPage((prev) => prev + 1)}
+            >
+              Next ➡
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

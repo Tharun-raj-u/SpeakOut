@@ -1,0 +1,233 @@
+.adm-wrap {
+  --bg: #0b0f14;
+  --card: #121821;
+  --border: #1d2530;
+  --text: #e7ecf3;
+  --muted: #9fb0c3;
+
+  --c-open: #3fbf7f;
+  --c-review: #4ea8de;
+  --c-impl: #a78bfa;
+  --c-rej: #ef6b6b;
+  --c-anon: #f5b971;
+
+  --c-progress: #ffd166;
+  --c-muted: #637a94;
+
+  --shadow: 0 10px 25px rgba(0,0,0,0.35);
+
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 16px 64px;
+  border-radius: 12px;
+}
+
+.adm-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+
+.adm-title h1 {
+  margin: 0 0 6px 0;
+  font-size: 28px;
+  letter-spacing: 0.2px;
+}
+
+.adm-subtitle {
+  margin: 0;
+  color: var(--muted);
+}
+
+.adm-endpoint {
+  font-size: 13px;
+  color: var(--muted);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+.adm-endpoint code {
+  color: var(--text);
+}
+
+.adm-state,
+.adm-error {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+.adm-error {
+  border-color: var(--c-rej);
+}
+
+.adm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  margin: 18px 0 22px;
+}
+
+.adm-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+.kpi .kpi-label {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.kpi .kpi-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.adm-two-col {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+@media (max-width: 900px) {
+  .adm-two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+h2 {
+  margin: 0 0 14px 0;
+  font-size: 18px;
+}
+
+.stacked-bar {
+  display: flex;
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.stacked-segment {
+  height: 100%;
+}
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.legend .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.legend .legend-val {
+  margin-left: auto;
+  color: var(--muted);
+}
+
+.recent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+@media (max-width: 700px) {
+  .recent-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.recent-item {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+}
+.recent-label {
+  color: var(--muted);
+  font-size: 12px;
+}
+.recent-value {
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.muted {
+  color: var(--muted);
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.barlist {
+  display: grid;
+  gap: 10px;
+}
+.barlist-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 70px;
+  gap: 10px;
+  align-items: center;
+}
+.barlist-label {
+  color: var(--muted);
+}
+.barlist-bar {
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.barlist-bar .bar {
+  height: 100%;
+}
+
+.table-wrap {
+  overflow: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+.adm-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 420px;
+  background: rgba(255,255,255,0.02);
+}
+.adm-table th,
+.adm-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+.adm-table thead th {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.adm-table tbody tr:hover {
+  background: rgba(255,255,255,0.04);
+}

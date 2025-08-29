@@ -214,6 +214,10 @@ public class AdminService {
         return suggestionService.findByDeletedTrue();
     }
 
+    public void hardDeleteSuggestions() {
+        suggestionService.hardDeleteSuggestions();
+    }
+
     // Inner classes for return types
     public static class DashboardStatistics {
         public long totalSuggestions;

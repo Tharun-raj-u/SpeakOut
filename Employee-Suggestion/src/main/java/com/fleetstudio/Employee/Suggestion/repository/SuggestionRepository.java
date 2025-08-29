@@ -154,4 +154,5 @@ public interface SuggestionRepository extends JpaRepository<Suggestion, Long> {
     int decrementVoteCount(@Param("suggestionId") Long suggestionId, @Param("updateTime") LocalDateTime updateTime);
 
     List<Suggestion> findByDeletedTrue();
+    void deleteByDeleted(boolean deleted);
 }

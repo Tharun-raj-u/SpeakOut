@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "../styles/employee.css";
+import "./EmployeeForm.css";
+import AdminNavbar from "./AdminNavbar";
 
 function EmployeeForm() {
   const [formData, setFormData] = useState({
@@ -49,9 +50,12 @@ function EmployeeForm() {
   };
 
   return (
-    <div className="form-container">
-      <h2>Employee Registration</h2>
-      <form onSubmit={handleSubmit}>
+    <>
+    <AdminNavbar/>
+  <div className="employee-form-wrapper">
+      <div className="form-container">
+        <h2>Employee Registration</h2>
+        <form onSubmit={handleSubmit}>
         <label>Name:</label>
         <input
           type="text"
@@ -108,6 +112,8 @@ function EmployeeForm() {
         <button type="submit">Create Employee</button>
       </form>
     </div>
+  </div>
+  </>
   );
 }
 

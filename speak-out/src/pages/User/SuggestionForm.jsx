@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./SuggestionForm.css";
-
+import Navbar from "./Navbar";
 function SuggestionForm() {
   const [formData, setFormData] = useState({
     title: "",
@@ -47,6 +47,7 @@ function SuggestionForm() {
   };
 
   return (
+    <><Navbar />
     <div className="form-container">
       <h2>Submit a Suggestion</h2>
       <form onSubmit={handleSubmit}>
@@ -81,6 +82,7 @@ function SuggestionForm() {
         <button type="submit">Submit Suggestion</button>
       </form>
     </div>
+    </>
   );
 }
 

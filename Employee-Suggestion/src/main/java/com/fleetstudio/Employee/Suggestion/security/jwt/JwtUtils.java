@@ -38,7 +38,7 @@ public class JwtUtils {
         return Jwts.builder().setSubject(email)
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 hour
+                .setExpiration(new Date(System.currentTimeMillis() + 36000000)) // 1 hour
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }

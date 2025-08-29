@@ -22,9 +22,7 @@ const AdminNavbar = () => {
         <li>
           <Link to="/admin/register" className="navbar-item">Register an Employee</Link>
         </li>
-        <li>
-          <Link to="/admin/users" className="navbar-item">Manage Users</Link>
-        </li>
+        
         <li>
           <Link to="/admin/suggestions" className="navbar-item">Manage Suggestions</Link>
         </li>
