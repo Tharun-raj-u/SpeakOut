@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import "./AdminDashboard.css";
+import "./AdminDashBoard.css";
 import AdminNavbar from "./AdminNavbar";
 
 
