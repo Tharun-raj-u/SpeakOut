@@ -1,0 +1,111 @@
+/* EmployeeRegistration.css */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Wrapper */
+.employee-registration-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 40%, #2a1a2a 100%);
+  padding: 1.5rem;
+}
+
+/* Container */
+.employee-registration-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.8rem;   /* reduced */
+  width: 100%;
+  max-width: 420px;  /* narrower */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.45);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.employee-registration-title {
+  font-size: 1.6rem;   /* reduced */
+  font-weight: 700;
+  margin-bottom: 1.5rem; /* reduced */
+  text-align: center;
+  background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Labels */
+.employee-label {
+  display: block;
+  margin-bottom: 0.4rem;   /* reduced */
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #cbd5e0;
+}
+
+/* Inputs */
+.employee-input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;   /* reduced height */
+  margin-bottom: 1rem;      /* reduced spacing */
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #201b1b;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.employee-input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 8px rgba(102, 126, 234, 0.5);
+}
+
+/* Button */
+.employee-submit-btn {
+  width: 100%;
+  padding: 0.8rem;   /* reduced */
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  font-size: 0.95rem;   /* slightly smaller */
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(102, 126, 234, 0.35);
+}
+
+.employee-submit-btn:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(102, 126, 234, 0.45);
+}
+
+.employee-submit-btn:active {
+  transform: translateY(-1px);
+}

@@ -1,0 +1,244 @@
+/* ===== CRT Admin Suggestions Page (Scoped) ===== */
+.admin-suggestions-wrapper {
+  background: #000;
+  color: #0f0;
+  font-family: "Courier New", monospace;
+  min-height: 100vh;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* CRT Scanline effect (scoped to wrapper only) */
+.admin-suggestions-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 255, 0, 0.05) 0px,
+    rgba(0, 255, 0, 0.05) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.admin-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #00ff99;
+  text-shadow: 0 0 6px #0f0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Filter Bar */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.filter-bar label {
+  font-weight: bold;
+}
+
+.filter-bar select {
+  background: #000;
+  color: #0f0;
+  border: 1px solid #0f0;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+
+/* Grid */
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Suggestion Card */
+.admin-suggestion-card {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid #0f0;
+  border-radius: 6px;
+  padding: 15px;
+  min-height: 220px; /* 🔹 fixes box size shifting */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-suggestion-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+}
+
+/* Card Header */
+.admin-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-suggestion-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00ffcc;
+}
+
+.admin-description {
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+.admin-meta {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* Status Badges */
+.admin-status-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid #0f0;
+  text-transform: uppercase;
+}
+
+.status-OPEN {
+  color: #00ffcc;
+}
+
+.status-UNDER_REVIEW {
+  color: #ffff00;
+}
+
+.status-IN_PROGRESS {
+  color: #ff9900;
+}
+
+.status-IMPLEMENTED {
+  color: #00ff00;
+}
+
+.status-ON_HOLD {
+  color: #ff00ff;
+}
+
+.status-REJECTED {
+  color: #ff0033;
+}
+
+/* Actions */
+.admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.admin-btn {
+  background: #000;
+  color: #0f0;
+  border: 1px solid #0f0;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.admin-btn:hover {
+  background: #0f0;
+  color: #000;
+  box-shadow: 0 0 8px #0f0;
+}
+
+.admin-btn-save {
+  border-color: #00ff00;
+  color: #00ff00;
+}
+
+.admin-btn-cancel {
+  border-color: #ffcc00;
+  color: #ffcc00;
+}
+
+.admin-btn-delete {
+  border-color: #ff0033;
+  color: #ff0033;
+}
+
+.admin-btn-delete:hover {
+  background: #ff0033;
+  color: #000;
+}
+
+/* Status Form */
+.admin-status-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-status-form select,
+.admin-status-form input {
+  background: #000;
+  color: #0f0;
+  border: 1px solid #0f0;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.page-btn {
+  background: #000;
+  color: #0f0;
+  border: 1px solid #0f0;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+  .filter-bar {
+    flex-direction: column;
+  }
+}
