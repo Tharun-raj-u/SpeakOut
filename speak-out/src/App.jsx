@@ -83,7 +83,7 @@ function App() {
           path="/admin"
           element={
             isAuthenticated && role === "ROLE_ADMIN" ? (
-              <AdminDashboard />
+              <AdminDashBoard />
             ) : (
               <Navigate to="/" />
             )
