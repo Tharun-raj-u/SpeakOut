@@ -57,7 +57,7 @@ Built with **Spring Boot (Java)** for the backend, **React (Vite)** for the fron
 ## 🌍 Deployed URLs
 
 - **Frontend (React):**  
-  👉 [SpeakOut on Vercel](https://speakout-j7xhnm8gl-traj-8109s-projects.vercel.app/admin/register)
+  👉 [SpeakOut on Vercel](https://speakout-j7xhnm8gl-traj-8109s-projects.vercel.app)
 
 - **Backend (Spring Boot API):**  
   👉 `https://your-deployed-backend-url/api`
