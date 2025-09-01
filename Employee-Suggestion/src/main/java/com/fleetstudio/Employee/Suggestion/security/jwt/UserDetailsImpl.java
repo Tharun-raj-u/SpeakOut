@@ -31,6 +31,10 @@ public class UserDetailsImpl implements UserDetails {
         this.username = username;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     // Static method to build UserDetailsImpl from User object
     public static UserDetailsImpl build(Employee user) {
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole());
