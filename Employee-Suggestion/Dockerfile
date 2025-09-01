@@ -1,14 +1,16 @@
-# Use lightweight OpenJDK on Alpine
-FROM eclipse-temurin:20-jdk-alpine
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:17-jdk-slim
 
-# Set working directory
+#
+
+# Set the working directory
 WORKDIR /app
 
-# Copy the built jar into the container
-COPY target/*.jar app.jar
+# Copy the jar file into the container
+COPY target/Employee-Suggestion-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose Spring Boot default port
+# Expose port (optional, for documentation)
 EXPOSE 8080
 
-# Run the application
+# Run the jar file
 ENTRYPOINT ["java", "-jar", "app.jar"]
