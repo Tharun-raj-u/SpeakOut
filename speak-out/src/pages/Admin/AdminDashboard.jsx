@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
-import "./AdminDashBoard.css";
 import AdminNavbar from "./AdminNavbar";
+import "./AdminDashBoard.css";
 
 
-export default function AdminDashboard() {
+export default function AdminDashBoard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
