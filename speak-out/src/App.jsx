@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import UserDashboard from "./pages/User/UserDashboard";
-import AdminDashboard from "./pages/Admin/AdminDashboard";
-import EmployeeForm from "./pages/Admin/EmployeeForm";
-import PageNotFound from "./pages/PageNotFound";
-import SuggestionForm from "./pages/User/SuggestionForm";
-import AdminSuggestionsPage from "./pages/Admin/AdminSuggestionsPage";
-import MySuggestionsPage from "./pages/User/MySuggestionsPage";
-import DeletedSuggestionsPage from "./pages/Admin/DeletedSuggestionsPage";  
+import LoginPage from "./pages/LoginPage.jsx";
+import UserDashboard from "./pages/User/UserDashboard.jsx";
+import AdminDashboard from "./pages/Admin/AdminDashboard.jsx";
+import EmployeeForm from "./pages/Admin/EmployeeForm.jsx";
+import PageNotFound from "./pages/PageNotFound.jsx";
+import SuggestionForm from "./pages/User/SuggestionForm.jsx";
+import AdminSuggestionsPage from "./pages/Admin/AdminSuggestionsPage.jsx";
+import MySuggestionsPage from "./pages/User/MySuggestionsPage.jsx";
+import DeletedSuggestionsPage from "./pages/Admin/DeletedSuggestionsPage.jsx";
 import {jwtDecode} from "jwt-decode";
 
 function App() {
