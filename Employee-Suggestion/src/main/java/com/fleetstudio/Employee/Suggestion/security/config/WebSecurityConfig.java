@@ -74,7 +74,7 @@ public class WebSecurityConfig {
 
 
 
-        corsConfiguration.addAllowedOrigin("https://speakout-j7xhnm8gl-traj-8109s-projects.vercel.app");
+        corsConfiguration.addAllowedOrigin("https://speak-out-9upz-5yludypld-traj-8109s-projects.vercel.app");
         corsConfiguration.addAllowedMethod("*"); // Allow all methods (GET, POST, etc.)
         corsConfiguration.addAllowedHeader("*"); // Allow all headers
         corsConfiguration.setAllowCredentials(true);
