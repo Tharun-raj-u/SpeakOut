@@ -29,7 +29,7 @@ function LoginPage() {
         localStorage.setItem("role", data.role);
 
         // 🚀 Immediately redirect based on role
-        window.location.href = data.role === "ROLE_ADMIN" ? "/admin" : "/user";
+        navigate(data.role === "ROLE_ADMIN" ? "/admin" : "/user");
       } else {
         alert("Invalid credentials!");
       }
