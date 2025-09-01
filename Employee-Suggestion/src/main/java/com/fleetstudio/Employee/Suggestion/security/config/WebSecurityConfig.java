@@ -73,7 +73,7 @@ public class WebSecurityConfig {
         corsConfiguration.addAllowedOrigin("http://localhost:5173"); // Allow frontend URL
         corsConfiguration.addAllowedOrigin("http://localhost:5174");
         corsConfiguration.addAllowedOrigin("https://speakout-j7xhnm8gl-traj-8109s-projects.vercel.app");
-        corsConfiguration.addAllowedOrigin("https://speakout-j7xhnm8gl-traj-8109s-projects.vercel.app/*");
+
 
         corsConfiguration.addAllowedMethod("*"); // Allow all methods (GET, POST, etc.)
         corsConfiguration.addAllowedHeader("*"); // Allow all headers

@@ -19,8 +19,7 @@ public class CorsConfig {
                 "http://localhost:5173",
                 "http://localhost:5174",
                 "https://speak-out-9upz-5yludypld-traj-8109s-projects.vercel.app",
-                "https://speakout-j7xhnm8gl-traj-8109s-projects.vercel.app",
-                "https://speakout-j7xhnm8gl-traj-8109s-projects.vercel.app/*"
+                "https://speakout-j7xhnm8gl-traj-8109s-projects.vercel.app"
         ));
 
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
