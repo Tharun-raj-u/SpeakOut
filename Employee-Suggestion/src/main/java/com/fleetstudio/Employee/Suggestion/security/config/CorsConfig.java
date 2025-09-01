@@ -15,7 +15,12 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Replace the origin with your front-end URL. You can also use "*" if you need to allow all origins.
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173","http://localhost:5174/","http://localhost:5173/*","https://speakout-j7xhnm8gl-traj-8109s-projects.vercel.app/*","https://speakout-j7xhnm8gl-traj-8109s-projects.vercel.app/*"));
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:5173",
+                "http://localhost:5174",
+                "https://speakout-j7xhnm8gl-traj-8109s-projects.vercel.app"
+        ));
+
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         // Allow the necessary headers including the authorization header
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
